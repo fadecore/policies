@@ -33,7 +33,7 @@ spec:
           value: DELETE
       validate:
         message: >-
-          Containers must drop the `CAP_NET_RAW` capability.
+          Containers must drop the `CAP_NET_RAW` and must not add the capability.
         foreach:
           - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
             deny:
@@ -42,9 +42,22 @@ spec:
                 #- key: CAP_NET_RAW
                 #  operator: AnyNotIn
                 #  value: "{{ element.securityContext.capabilities.drop[].to_upper(@) || `[]` }}"
-                #- key: "{{ element.securityContext.capabilities.drop[].to_upper(@) || `[]` }}"
-                - key: "{{ element.securityContext.capabilities.drop[].to_upper(@) }}"
+                - key: "{{ element.securityContext.capabilities.drop[].to_upper(@) || `[]` }}"
+                #- key: "{{ element.securityContext.capabilities.drop[].to_upper(@) }}"
                   operator: AnyNotIn
+                  value:
+                    - CAP_NET_RAW
+                    - ALL
+          - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
+            deny:
+              conditions:
+                all:
+                #- key: CAP_NET_RAW
+                #  operator: AnyNotIn
+                #  value: "{{ element.securityContext.capabilities.add[].to_upper(@) || `[]` }}"
+                - key: "{{ element.securityContext.capabilities.add[].to_upper(@) || `[]` }}"
+                #- key: "{{ element.securityContext.capabilities.add[].to_upper(@) }}"
+                  operator: AnyIn
                   value:
                     - CAP_NET_RAW
                     - ALL

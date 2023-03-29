@@ -13,8 +13,9 @@ metadata:
       CAP_NET_RAW capability, enabled by default, allows processes in a container to
       forge packets and bind to any interface potentially leading to MitM attacks.
       This policy ensures that all containers explicitly drop the CAP_NET_RAW
-      ability. Note that this policy also illustrates how to cover drop entries in any
-      case although this may not strictly conform to the Pod Security Standards.
+      ability, when not dropping ALL. Note that this policy also illustrates how to 
+      cover drop entries in any case although this may not strictly conform to the 
+      Pod Security Standards.
 spec:
   validationFailureAction: audit
   background: true
@@ -38,6 +39,12 @@ spec:
             deny:
               conditions:
                 all:
-                - key: CAP_NET_RAW
+                #- key: CAP_NET_RAW
+                #  operator: AnyNotIn
+                #  value: "{{ element.securityContext.capabilities.drop[].to_upper(@) || `[]` }}"
+                #- key: "{{ element.securityContext.capabilities.drop[].to_upper(@) || `[]` }}"
+                - key: "{{ element.securityContext.capabilities.drop[].to_upper(@) }}"
                   operator: AnyNotIn
-                  value: "{{ element.securityContext.capabilities.drop[].to_upper(@) || `[]` }}"
+                  value:
+                    - CAP_NET_RAW
+                    - ALL

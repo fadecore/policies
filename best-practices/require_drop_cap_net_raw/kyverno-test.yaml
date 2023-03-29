@@ -9,7 +9,17 @@ resources:
 results:
   - policy: drop-cap-net-raw
     rule: require-drop-cap-net-raw
-    resource: drop-good
+    resource: drop-good01
+    kind: Pod
+    result: pass
+  - policy: drop-cap-net-raw
+    rule: require-drop-cap-net-raw
+    resource: drop-good02
+    kind: Pod
+    result: pass
+  - policy: drop-cap-net-raw
+    rule: require-drop-cap-net-raw
+    resource: drop-good03
     kind: Pod
     result: pass
   - policy: drop-cap-net-raw
@@ -20,5 +30,10 @@ results:
   - policy: drop-cap-net-raw
     rule: require-drop-cap-net-raw
     resource: badpod02
+    kind: Pod
+    result: fail
+  - policy: drop-cap-net-raw
+    rule: require-drop-cap-net-raw
+    resource: badpod03
     kind: Pod
     result: fail

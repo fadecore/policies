@@ -39,11 +39,7 @@ spec:
             deny:
               conditions:
                 all:
-                #- key: CAP_NET_RAW
-                #  operator: AnyNotIn
-                #  value: "{{ element.securityContext.capabilities.drop[].to_upper(@) || '[]' }}"
                 - key: "{{ element.securityContext.capabilities.drop[].to_upper(@) || '[]' }}"
-                #- key: "{{ element.securityContext.capabilities.drop[].to_upper(@) }}"
                   operator: AnyNotIn
                   value:
                     - CAP_NET_RAW
@@ -52,12 +48,7 @@ spec:
             deny:
               conditions:
                 all:
-                #- key: CAP_NET_RAW
-                #  operator: AnyNotIn
-                #  value: "{{ element.securityContext.capabilities.add[].to_upper(@) || '[]' }}"
                 - key: "{{ element.securityContext.capabilities.add[].to_upper(@) || '[]' }}"
-                #- key: "{{ element.securityContext.capabilities.add[].to_upper(@) }}"
                   operator: AnyIn
                   value:
                     - CAP_NET_RAW
-                    - ALL

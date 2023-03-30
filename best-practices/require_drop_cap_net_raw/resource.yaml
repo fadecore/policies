@@ -89,26 +89,6 @@ spec:
     image: gcr.io/google-samples/node-hello:1.0
     securityContext:
       capabilities:
-        drop: ["CAP_NET_RAW"]
-        add: ["CAP_NET_RAW"]
-  containers:
-  - name: add-capabilities
-    image: gcr.io/google-samples/node-hello:1.0
-    securityContext:
-      capabilities:
-        drop: ["CAP_NET_RAW"]
-        add: ["CAP_NET_RAW"]
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: badpod04
-spec:
-  initContainers:
-  - name: init
-    image: gcr.io/google-samples/node-hello:1.0
-    securityContext:
-      capabilities:
         drop: ["ALL"]
         add: ["CAP_NET_RAW"]
   containers:

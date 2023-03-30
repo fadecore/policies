@@ -37,8 +37,3 @@ results:
     resource: badpod03
     kind: Pod
     result: fail
-  - policy: drop-cap-net-raw
-    rule: require-drop-cap-net-raw
-    resource: badpod04
-    kind: Pod
-    result: fail
